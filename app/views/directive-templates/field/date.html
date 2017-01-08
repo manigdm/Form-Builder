@@ -1,0 +1,8 @@
+<div class="form-group">
+    <h5> {{field.field_title}}:</h5>
+     <input type="text" class="form-control" ng-model="field.field_value" data-date-format="mm/dd/yyyy" bs-datepicker  ng-required="field.field_required" ng-disabled="field.field_disabled">
+            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    <div class="required-error" ng-show="field.field_required && !field.field_value">
+    	* Required
+    </div>
+</div>

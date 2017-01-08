@@ -1,0 +1,144 @@
+<h1>Create a New Form</h1> <br>
+<p>Select field type you want to add to the form below and click on 'Add Field' button. Please set field properties. After you creating the form field, you can preview the form by clicking Generate Form button.</p>
+<div class="">
+    <div class="form-fields">
+        <h3>Fields</h3>
+        <div class="text-left">
+            <select class="pull-left" ng-model="addField.new" ng-options="type.name for type in addField.types"></select>
+            <button style="margin-left: 60px;" type="submit" class="btn" ng-click="addNewField()"><i class="icon-plus"></i> Add Field</button>
+        </div>
+        <hr>
+        <p ng-show="form.form_fields.length == 0">No fields added yet.</p>
+        <accordion close-others="accordion.oneAtATime">
+            <accordion-group heading="Edit - {{field.field_title}}" ng-repeat="field in form.form_fields">
+                <div class="accordion-edit">
+                    <button class="btn btn-danger pull-right" type="button" ng-click="deleteField(field.field_id)"><i class="icon-trash icon-white"></i> Delete</button>
+
+                    <div class="row">
+                        <div class="span2">Field ID: </div>
+                        <div class="span4">{{field.field_id}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="span2">Field Type:</div>
+                        <div class="span4">{{field.field_type}}</div>
+                    </div>
+
+                    <div class="clear"></div> <hr>
+
+                    <div class="row">
+                        <div class="span2">Field Title:</div>
+                        <div class="span4"><input type="text" ng-model="field.field_title" value="{{field.field_title}}"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span2">Field Default Value:</div>
+                        <div class="span4"><input type="text" ng-model="field.field_value" value="{{field.field_value}}"></div>
+                    </div>
+                    <div class="row" ng-show="showAddOptions(field)">
+                        <div class="span2">Field Options:</div>
+                        <div class="span6">
+                            <div ng-repeat="option in field.field_options">
+                                <input type="text" ng-model="option.option_title" value="{{option.option_title}}">
+                                <a class="btn btn-danger btn-mini right" type="button" ng-click="deleteOption(field, option)"><i class="icon-minus icon-white"></i></a>
+                                <span class="label label-inverse">Value: {{ option.option_value }}</span>
+                            </div>
+                            <button class="btn btn-primary btn-small" type="button" ng-click="addOption(field)"><i class="icon-plus icon-white"></i> Add Option</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span2">Required:</div>
+                        <div class="span4">
+                            <label>
+                                <input type="radio" ng-value="true" ng-selected ng-model="field.field_required"/>
+                                &nbsp; Yes
+                            </label>
+                            <label>
+                                <input type="radio" ng-value="false" ng-model="field.field_required"/>
+                                &nbsp; No
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </accordion-group>
+        </accordion>
+
+        <p class="text-center">
+            <button class="btn btn-success right" type="button" ng-click="generateForm()">Generate Form</button>
+            <button class="btn btn-default right" type="button" ng-click="reset()">Clear</button>
+        </p>
+    </div>
+    <hr>
+    <div class="form-fields-preview" ng-show="previewMode">
+        <form-directive form="previewForm"></form-directive>
+    </div>
+</div>
+
+<div class="modal fade" id="add_new_field" role="dialog" style="display:none;">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add New Field</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+                <div class="row">
+                    <div class="span2">Field ID: </div>
+                    <div class="span4">{{newField.field_id}}</div>
+                </div>
+                <div class="row">
+                    <div class="span2">Field Type:</div>
+                    <div class="span4">{{newField.field_type}}</div>
+                </div>
+
+                <div class="clear"></div> <hr>
+
+                <div class="row">
+                    <div class="span2">Field Title:</div>
+                    <div class="span4"><input type="text" ng-model="newField.field_title" value="{{newField.field_title}}"></div>
+                </div>
+                <div class="row">
+                    <div class="span2">Field Default Value:</div>
+                    <div class="span4"><input type="text" ng-model="newField.field_value" value="{{newField.field_value}}"></div>
+                </div>
+                <div class="row" ng-show="showAddOptions(newField)">
+                    <div class="span2">Field Options:</div>
+                    <div class="span6">
+                        <div ng-repeat="option in newField.field_options">
+                            <input type="text" ng-model="option.option_title" value="{{option.option_title}}">
+                            <a class="btn btn-danger btn-mini right" type="button" ng-click="deleteOption(newField, option)"><i class="icon-minus icon-white"></i></a>
+                            <span class="label label-inverse">Value: {{ option.option_value }}</span>
+                        </div>
+                        <button class="btn btn-primary btn-small" type="button" ng-click="addOption(newField)"><i class="icon-plus icon-white"></i> Add Option</button>
+                    </div>
+                </div>
+                <div class="row" ng-show="newField.field_minlength">
+                    <div class="span2">Min Length:</div><input type="text" ng-model="newField.field_minlength" value="{{newField.field_minlength}}">
+                </div>
+                <div class="row" ng-show="newField.field_maxlength">
+                    <div class="span2">Max Length:</div><input type="text" ng-model="newField.field_maxlength" value="{{newField.field_maxlength}}">
+                </div>
+                <div class="row">
+                    <div class="span2">Required:</div>
+                    <div class="span4">
+                        <label>
+                            <input type="radio" ng-value="true" ng-selected ng-model="newField.field_required"/>
+                            &nbsp; Yes
+                        </label>
+                        <label>
+                            <input type="radio" ng-value="false" ng-model="newField.field_required"/>
+                            &nbsp; No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success pull-left" ng-click="saveNewField()"data-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" ng-click="closeForm()">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+

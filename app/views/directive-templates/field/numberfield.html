@@ -1,0 +1,8 @@
+<div class="form-group">
+    <h5>{{field.field_title}}:</h5>
+    <input type="number" class="form-control"
+		ng-model="field.field_value" 
+		value="{{field.field_value}}" 
+		ng-required="field.field_required" ng-minlength="10">
+    <div class="required-error" ng-show="field.field_required && !field.field_value">* required, minimum 10 digit</div>
+</div>

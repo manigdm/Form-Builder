@@ -1,0 +1,5 @@
+<div class="form-group">
+	<h5>{{field.field_title}}:</h5>
+	<input type="email" class="form-control" placeholder="Email" value="{{field.field_value}}" ng-model="field.field_value" ng-required="field.field_required" ng-disabled="field.field_disabled"/>
+    <div class="required-error" ng-show="field.field_required && !field.field_value">* required</div>
+</div>
